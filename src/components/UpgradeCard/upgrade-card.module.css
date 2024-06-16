@@ -2,6 +2,9 @@
 	background: #272a2f;
 	font-size: 12px;
 	border-radius: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 .top {
