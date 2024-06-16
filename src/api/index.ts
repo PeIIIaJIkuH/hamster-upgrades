@@ -18,8 +18,9 @@ export const api = ky.create({
 			async (request, _options, response) => {
 				if (response.status === 401 || (response.status === 400 && request.headers.get(HANDLE_400_AS_401) === 'true')) {
 					setAuthToken('');
-					if (initDataRaw()) {
-						const authToken = await authToHamster(initDataRaw());
+					const initData = initDataRaw();
+					if (initData) {
+						const authToken = await authToHamster(initData);
 						setAuthToken(authToken);
 						request.headers.set('Authorization', `Bearer ${authToken}`);
 						return ky(request);

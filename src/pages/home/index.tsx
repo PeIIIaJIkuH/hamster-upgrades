@@ -6,6 +6,8 @@ import { initDataRaw } from '../../store';
 import s from './home.module.css';
 
 export const HomePage: Component = () => {
+	console.log('initDataRaw', initDataRaw());
+
 	return (
 		<div class={s.home}>
 			<Show when={initDataRaw()} fallback={<Instructions />}>

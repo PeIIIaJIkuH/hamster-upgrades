@@ -1,33 +1,32 @@
 import { Component } from 'solid-js';
 
-import { setInitDataRaw } from '../../store';
-
 import s from './instructions.module.css';
 
 export const Instructions: Component = () => {
-	const handlePromptClick = () => {
-		const initData = prompt('Please enter the initDataRaw value:');
-		if (initData !== null) {
-			setInitDataRaw(initData);
-		}
-	};
-
 	return (
 		<div class={s.wrapper}>
-			<p>This application requires the initDataRaw value to load your data.</p>
-			<p>Follow these steps to obtain it:</p>
+			<p>
+				This application requires the <code class={s.code}>initDataRaw</code> value to load your data.
+			</p>
+			<p>Either you haven't set it yet or it's invalid. If you have it, you can set it by following the instructions</p>
 			<ol>
 				<li>Open Hamster Kombat App on Telegram Web (Browser).</li>
-				<li>Open DevTools (F12) -&gt; Application Tab -&gt; Session Storage -&gt; Select Hamster Kombat.</li>
 				<li>
-					On the bottom panel, right-click on <code>tgWebAppData</code> -&gt; Click on <strong>Copy Value</strong>.
+					Open the DevTools <code class={s.code}>F12</code>.
 				</li>
-				<li>Press the "Set the tgWebAppData" button below and paste the value.</li>
+				<li>Go to the Application Tab.</li>
+				<li>Click on Session Storage.</li>
+				<li>Select Hamster Kombat.</li>
+				<li>
+					On the bottom panel, right-click on <code class={s.code}>tgWebAppData</code>.
+				</li>
+				<li>
+					Click on <strong>Copy Value</strong>.
+				</li>
+				<li>
+					Select the <code class={s.code}>/set-init-data</code> command in the Hamster Upgrades bot and send the value.
+				</li>
 			</ol>
-
-			<button class={s.button} onClick={handlePromptClick}>
-				Set the tgWebAppData
-			</button>
 		</div>
 	);
 };

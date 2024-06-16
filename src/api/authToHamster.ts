@@ -8,7 +8,7 @@ const authApi = ky.create({
 		afterResponse: [
 			async (_request, _options, response) => {
 				if (response.status === 400) {
-					setInitDataRaw('');
+					setInitDataRaw(null);
 				}
 			},
 		],
