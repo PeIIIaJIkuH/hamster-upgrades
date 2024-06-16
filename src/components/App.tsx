@@ -28,6 +28,9 @@ export const App: Component = () => {
 		const vp = viewport();
 		vp && onCleanup(bindViewportCSSVars(vp));
 	});
+	createEffect(() => {
+		viewport()?.expand();
+	});
 
 	const navigator = initNavigator('app-navigator-state');
 	void navigator.attach();
@@ -37,10 +40,6 @@ export const App: Component = () => {
 	});
 
 	const Router = createRouter(navigator);
-
-	onMount(() => {
-		viewport()?.expand();
-	});
 
 	return (
 		<Router>
