@@ -9,7 +9,7 @@ import {
 	useViewport,
 } from '@tma.js/sdk-solid';
 import { createRouter } from '@tma.js/solid-router-integration';
-import { Component, For, createEffect, onCleanup, onMount } from 'solid-js';
+import { Component, For, createEffect, onCleanup } from 'solid-js';
 
 import { routes } from '../navigation/routes';
 
