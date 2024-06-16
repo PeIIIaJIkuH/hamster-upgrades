@@ -1,5 +1,5 @@
 import { Component } from 'solid-js';
-import coinIcon from '/src/assets/icons/coin.png';
+import coinIcon from '/icons/coin.png';
 import s from './price.module.css';
 import clsx from 'clsx';
 import { compactNumberFormat } from '../../helpers';

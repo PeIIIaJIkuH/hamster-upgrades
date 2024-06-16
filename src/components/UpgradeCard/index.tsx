@@ -13,7 +13,7 @@ export const UpgradeCard: Component<UpgradeProps> = (props) => {
 		<div class={s.upgradeCard}>
 			<div class={s.top}>
 				<div class={s.image}>
-					<Image src={`/src/assets/images/${props.upgrade.id}`} alt={props.upgrade.name} size={60} />
+					<Image src={`/images/${props.upgrade.id}`} alt={props.upgrade.name} size={60} />
 				</div>
 				<div class={s.info}>
 					<div>{props.upgrade.name}</div>
