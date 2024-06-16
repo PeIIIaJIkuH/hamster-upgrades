@@ -1,8 +1,10 @@
-import { Component } from 'solid-js';
-import { Upgrade } from '../../api/fetchUpgrades';
-import s from './upgrade-card.module.css';
 import clsx from 'clsx';
+import { Component } from 'solid-js';
+
+import { Upgrade } from '../../api/fetchUpgrades';
 import { Image, Price } from '..';
+
+import s from './upgrade-card.module.css';
 
 type UpgradeProps = {
 	upgrade: Upgrade;

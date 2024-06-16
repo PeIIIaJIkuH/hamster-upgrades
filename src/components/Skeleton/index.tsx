@@ -1,4 +1,5 @@
 import { Component } from 'solid-js';
+
 import s from './skeleton.module.css';
 
 export type SkeletonProps = {

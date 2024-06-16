@@ -1,4 +1,5 @@
 import { Component } from 'solid-js';
+
 import { HomePage } from '../pages/home';
 
 type Route = {

@@ -1,8 +1,10 @@
+import clsx from 'clsx';
 import { Component } from 'solid-js';
+
+import { compactNumberFormat } from '../../helpers';
+
 import coinIcon from '/icons/coin.png';
 import s from './price.module.css';
-import clsx from 'clsx';
-import { compactNumberFormat } from '../../helpers';
 
 type PriceProps = {
 	price: number;

@@ -1,6 +1,7 @@
 import { SDKProvider, retrieveLaunchParams } from '@tma.js/sdk-solid';
-import { Component, ErrorBoundary, Match, Switch } from 'solid-js';
 import eruda from 'eruda';
+import { Component, ErrorBoundary, Match, Switch } from 'solid-js';
+
 import { App } from './App';
 
 const Inner: Component = () => {

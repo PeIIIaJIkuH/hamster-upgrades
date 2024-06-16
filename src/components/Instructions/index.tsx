@@ -1,6 +1,8 @@
 import { Component } from 'solid-js';
-import s from './instructions.module.css';
+
 import { setInitDataRaw } from '../../store';
+
+import s from './instructions.module.css';
 
 export const Instructions: Component = () => {
 	const handlePromptClick = () => {

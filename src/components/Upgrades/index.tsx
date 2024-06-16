@@ -1,7 +1,9 @@
 import { Component, For, Show, createResource } from 'solid-js';
+
 import { fetchUpgrades } from '../../api';
-import s from './upgrades.module.css';
 import { Skeleton, SkeletonProps, TitleCard, UpgradeCard } from '..';
+
+import s from './upgrades.module.css';
 
 export const Upgrades: Component = () => {
 	const [upgrades] = createResource(fetchUpgrades);

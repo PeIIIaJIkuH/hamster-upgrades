@@ -1,4 +1,5 @@
 import ky from 'ky';
+
 import { setInitDataRaw } from '../store';
 
 const authApi = ky.create({

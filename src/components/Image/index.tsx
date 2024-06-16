@@ -1,5 +1,7 @@
 import { Component, createEffect, createSignal } from 'solid-js';
+
 import { imageExists } from './helpers';
+
 import s from './image.module.css';
 
 type ImageProps = {

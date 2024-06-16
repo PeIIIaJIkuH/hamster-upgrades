@@ -1,6 +1,7 @@
 import ky from 'ky';
-import { authToHamster } from './authToHamster';
+
 import { authToken, initDataRaw, setAuthToken } from '../store';
+import { authToHamster } from './authToHamster';
 
 export const HANDLE_400_AS_401 = 'X-Custom-Handle-400-As-401';
 

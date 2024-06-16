@@ -1,6 +1,7 @@
-import { Component, ParentProps } from 'solid-js';
-import s from './title-card.module.css';
 import clsx from 'clsx';
+import { Component, ParentProps } from 'solid-js';
+
+import s from './title-card.module.css';
 
 type TitleCardProps = {
 	class?: string;
