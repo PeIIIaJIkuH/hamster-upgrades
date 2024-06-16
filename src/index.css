@@ -1,0 +1,52 @@
+:root {
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	line-height: 1.5;
+	font-weight: 400;
+
+	color-scheme: light dark;
+	color: #ffffff;
+	background-color: #1c1f24;
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.roboto-flex-400 {
+	font-family: 'Roboto Flex', sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	font-variation-settings:
+		'slnt' 0,
+		'wdth' 100,
+		'GRAD' 0,
+		'XOPQ' 96,
+		'XTRA' 468,
+		'YOPQ' 79,
+		'YTAS' 750,
+		'YTDE' -203,
+		'YTFI' 738,
+		'YTLC' 514,
+		'YTUC' 712;
+}
+
+.roboto-flex-700 {
+	font-family: 'Roboto Flex', sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 700;
+	font-style: normal;
+	font-variation-settings:
+		'slnt' 0,
+		'wdth' 100,
+		'GRAD' 0,
+		'XOPQ' 96,
+		'XTRA' 468,
+		'YOPQ' 79,
+		'YTAS' 750,
+		'YTDE' -203,
+		'YTFI' 738,
+		'YTLC' 514,
+		'YTUC' 712;
+}
