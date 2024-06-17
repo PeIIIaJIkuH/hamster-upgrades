@@ -30,19 +30,19 @@ export const Upgrades: Component<UpgradesProps> = (props) => {
 	}));
 
 	return (
-		<Show
-			when={props.upgrades.state === 'ready'}
-			fallback={
-				<For each={skeletons}>
-					{(skeleton) => <Skeleton height={skeleton.height} radius={skeleton.radius} color={skeleton.color} />}
-				</For>
-			}
-		>
-			<div class={s.upgrades}>
+		<div class={s.upgrades}>
+			<Show
+				when={props.upgrades.state === 'ready'}
+				fallback={
+					<For each={skeletons}>
+						{(skeleton) => <Skeleton height={skeleton.height} radius={skeleton.radius} color={skeleton.color} />}
+					</For>
+				}
+			>
 				<For each={upgradesForBuy()}>
 					{(upgrade) => <UpgradeCard upgrade={upgrade} onClick={props.onUpgradeClick} />}
 				</For>
-			</div>
-		</Show>
+			</Show>
+		</div>
 	);
 };
