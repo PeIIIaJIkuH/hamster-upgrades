@@ -1,21 +1,22 @@
-import clsx from 'clsx';
 import { Component } from 'solid-js';
+import clsx from 'clsx';
 
-import { Upgrade } from '../../api/fetchUpgrades';
+import { Upgrade } from '../../api';
 import { Image, Price } from '..';
 
 import s from './upgrade-card.module.css';
 
 type UpgradeProps = {
 	upgrade: Upgrade;
+	onClick: (upgrade: Upgrade) => void;
 };
 
 export const UpgradeCard: Component<UpgradeProps> = (props) => {
 	return (
-		<div class={s.upgradeCard}>
+		<div class={s.upgradeCard} onClick={[props.onClick, props.upgrade]}>
 			<div class={s.top}>
 				<div class={s.image}>
-					<Image src={`/images/${props.upgrade.id}`} alt={props.upgrade.name} size={60} />
+					<Image src={props.upgrade.id} alt={props.upgrade.name} size={60} />
 				</div>
 				<div class={s.info}>
 					<div>{props.upgrade.name}</div>

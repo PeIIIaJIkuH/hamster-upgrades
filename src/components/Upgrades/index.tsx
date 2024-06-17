@@ -1,16 +1,22 @@
-import { Component, For, Show, createResource } from 'solid-js';
+import { Component, For, Resource, Show } from 'solid-js';
 
-import { fetchUpgrades } from '../../api';
-import { Skeleton, SkeletonProps, TitleCard, UpgradeCard } from '..';
+import { Upgrade, UpgradesState } from '../../api';
+import { Skeleton, SkeletonProps, UpgradeCard } from '..';
 
 import s from './upgrades.module.css';
 
-export const Upgrades: Component = () => {
-	const [upgrades] = createResource(fetchUpgrades);
+type UpgradesProps = {
+	upgrades: Resource<UpgradesState>;
+	onUpgradeClick: (upgrade: Upgrade) => void;
+};
+
+export const Upgrades: Component<UpgradesProps> = (props) => {
 	const upgradesForBuy = () =>
-		upgrades()
+		props
+			.upgrades()
 			?.upgradesForBuy.filter(
-				(upgrade) => upgrade.isAvailable && !upgrade.isExpired && upgrade.maxLevel !== upgrade.level,
+				(upgrade) =>
+					upgrade.isAvailable && !upgrade.isExpired && (upgrade.maxLevel ? upgrade.level < upgrade.maxLevel : true),
 			)
 			.sort((a, b) => a.price / a.profitPerHourDelta - b.price / b.profitPerHourDelta) ?? [];
 
@@ -21,18 +27,19 @@ export const Upgrades: Component = () => {
 	}));
 
 	return (
-		<div class={s.upgrades}>
-			<TitleCard class={s.upgradesTitle}>Upgrades</TitleCard>
-			<Show
-				when={upgrades.state === 'ready'}
-				fallback={
-					<For each={skeletons}>
-						{(skeleton) => <Skeleton height={skeleton.height} radius={skeleton.radius} color={skeleton.color} />}
-					</For>
-				}
-			>
-				<For each={upgradesForBuy()}>{(upgrade) => <UpgradeCard upgrade={upgrade} />}</For>
-			</Show>
-		</div>
+		<Show
+			when={props.upgrades.state === 'ready'}
+			fallback={
+				<For each={skeletons}>
+					{(skeleton) => <Skeleton height={skeleton.height} radius={skeleton.radius} color={skeleton.color} />}
+				</For>
+			}
+		>
+			<div class={s.upgrades}>
+				<For each={upgradesForBuy()}>
+					{(upgrade) => <UpgradeCard upgrade={upgrade} onClick={props.onUpgradeClick} />}
+				</For>
+			</div>
+		</Show>
 	);
 };

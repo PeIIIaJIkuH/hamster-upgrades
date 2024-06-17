@@ -12,9 +12,10 @@ type ImageProps = {
 
 export const Image: Component<ImageProps> = (props) => {
 	const [imageType, setImageType] = createSignal<'svg' | 'png'>('png');
+	const src = `/images/${props.src}`;
 
 	createEffect(() => {
-		const svgPath = `${props.src}.svg`;
+		const svgPath = `${src}.svg`;
 
 		imageExists(svgPath, (exists) => {
 			if (exists) {
@@ -27,7 +28,7 @@ export const Image: Component<ImageProps> = (props) => {
 
 	return (
 		<div class={s.wrapper} style={{ width: `${props.size}px`, height: `${props.size}px` }}>
-			<img class={s.image} src={`${props.src}.${imageType()}`} alt={props.alt} />
+			<img class={s.image} src={`${src}.${imageType()}`} alt={props.alt} />
 		</div>
 	);
 };

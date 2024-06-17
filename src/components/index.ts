@@ -5,3 +5,5 @@ export { UpgradeCard } from './UpgradeCard';
 export { Upgrades } from './Upgrades';
 export { Skeleton, type SkeletonProps } from './Skeleton';
 export { Instructions } from './Instructions';
+export { Modal } from './Modal';
+export { Header } from './Header';

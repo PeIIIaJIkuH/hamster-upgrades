@@ -516,6 +516,18 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.18.0.tgz#5d694d345ce36b6ecf657349e03eb87297e68da4"
   integrity sha512-UOo5FdvOL0+eIVTgS4tIdbW+TtnBLWg1YBCcU2KWM7nuNwRz9bksDX1bekJJCpu25N1DVWaCwnT39dVQxzqS8g==
 
+"@solid-primitives/presence@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@solid-primitives/presence/-/presence-0.0.6.tgz#66c11a6c0d50f511db8b7aca3f128fe518b7fac4"
+  integrity sha512-aQDOinJ+1H90jieShy8pgupUWOGCsk+2jN/EHnHOG0A7BnC8Q4q6eSSraqujAxpRPmqAQ5TyMncVnlLSwzXy3A==
+  dependencies:
+    "@solid-primitives/utils" "^6.2.3"
+
+"@solid-primitives/utils@^6.2.3":
+  version "6.2.3"
+  resolved "https://registry.yarnpkg.com/@solid-primitives/utils/-/utils-6.2.3.tgz#1abed4c74a2696e08bd2e49cf2b86fc8b87a32bd"
+  integrity sha512-CqAwKb2T5Vi72+rhebSsqNZ9o67buYRdEJrIFzRXz3U59QqezuuxPsyzTSVCacwS5Pf109VRsgCJQoxKRoECZQ==
+
 "@solidjs/router@^0.13.5":
   version "0.13.5"
   resolved "https://registry.yarnpkg.com/@solidjs/router/-/router-0.13.5.tgz#62ee37f63d2b5f74937903d64d04ec9a2b4223cf"

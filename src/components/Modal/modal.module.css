@@ -1,0 +1,66 @@
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 5;
+}
+
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	cursor: pointer;
+	background: #272a2fb3;
+}
+
+.content {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background: #1c1f24;
+	border-radius: 40px 40px 0 0;
+	border-top: 2px solid #f3ba2f;
+	box-shadow: 0 -4px 64px #fab82299;
+	z-index: 10;
+}
+
+.close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 16px;
+	cursor: pointer;
+	color: #4e4f50;
+	transition: color 3s;
+}
+
+.close:hover {
+	color: #8b8e93;
+}
+
+.inner {
+	padding: 24px 16px 48px;
+}
+
+.action {
+	border-radius: 20px;
+	font-size: 20px;
+	height: 80px;
+	width: 100%;
+	border: none;
+	box-shadow: none;
+	cursor: pointer;
+	outline: none;
+	background: #5a60ff;
+	color: #ffffff;
+	transition: background 3s;
+}
+
+.action:hover {
+	background: #494fff;
+}

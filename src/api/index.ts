@@ -1,7 +1,7 @@
 import ky from 'ky';
 
 import { authToken, initDataRaw, setAuthToken } from '../store';
-import { authToHamster } from './authToHamster';
+import { authToHamster } from './auth';
 
 export const HANDLE_400_AS_401 = 'X-Custom-Handle-400-As-401';
 
@@ -32,4 +32,4 @@ export const api = ky.create({
 	},
 });
 
-export { fetchUpgrades } from './fetchUpgrades';
+export * from './clicker';

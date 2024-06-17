@@ -1,0 +1,52 @@
+.header {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.info {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 9px;
+}
+
+.card {
+	flex: 1 1;
+	background: #272a2f;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 4px;
+	min-height: 50px;
+}
+
+.title {
+	font-size: 12px;
+	line-height: 8px;
+	max-height: 14px;
+}
+
+.title.textOrange {
+	color: #ff9060;
+}
+
+.title.textPurple {
+	color: #7277ff;
+}
+
+.title.textGreen {
+	color: #82f88e;
+}
+
+.coins {
+	justify-content: center;
+}
+
+.taps {
+	display: flex;
+	gap: 9px;
+}
