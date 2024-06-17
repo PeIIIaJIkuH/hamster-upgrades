@@ -16,13 +16,18 @@ export const UpgradeCard: Component<UpgradeProps> = (props) => {
 		<div class={s.upgradeCard} onClick={[props.onClick, props.upgrade]}>
 			<div class={s.top}>
 				<div class={s.image}>
-					<Image src={props.upgrade.id} alt={props.upgrade.name} size={60} />
+					<Image id={props.upgrade.id} alt={props.upgrade.name} size={60} />
 				</div>
 				<div class={s.info}>
 					<div>{props.upgrade.name}</div>
 					<div>
 						<div class={s.profitLabel}>Profit per hour</div>
-						<Price price={props.upgrade.currentProfitPerHour} fontSize={12} coinSize={14} />
+						<Price
+							price={props.upgrade.currentProfitPerHour || props.upgrade.profitPerHourDelta}
+							withPlus={!props.upgrade.currentProfitPerHour}
+							fontSize={12}
+							coinSize={14}
+						/>
 					</div>
 				</div>
 			</div>

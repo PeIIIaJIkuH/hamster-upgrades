@@ -13,6 +13,7 @@ type PriceProps = {
 	standard?: boolean;
 	withPlus?: boolean;
 	withoutDecimals?: boolean;
+	separator?: string;
 	class?: string;
 };
 
@@ -24,7 +25,7 @@ export const Price: Component<PriceProps> = (props) => {
 			</Show>
 			<span style={{ 'font-size': `${props.fontSize}px` }}>
 				{props.withPlus && '+'}
-				{numberFormat(props.price, props.standard, props.withoutDecimals)}
+				{numberFormat(props.price, props.standard, props.withoutDecimals, props.separator)}
 			</span>
 		</div>
 	);

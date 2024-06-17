@@ -25,7 +25,7 @@ export const Header: Component = () => {
 			const { clickerUser } = await fetchSync();
 			setEarnPerTap(clickerUser.earnPerTap);
 			setProfitPerHour(clickerUser.earnPassivePerHour);
-			setCoins(clickerUser.totalCoins);
+			setCoins(clickerUser.balanceCoins);
 			setTaps(clickerUser.availableTaps);
 			setMaxTaps(clickerUser.maxTaps);
 
@@ -34,7 +34,7 @@ export const Header: Component = () => {
 				const { clickerUser: updatedUser } = await sendTaps(tapCount, clickerUser.availableTaps);
 				setEarnPerTap(updatedUser.earnPerTap);
 				setProfitPerHour(updatedUser.earnPassivePerHour);
-				setCoins(updatedUser.totalCoins);
+				setCoins(updatedUser.balanceCoins);
 				setTaps(updatedUser.availableTaps);
 				setMaxTaps(updatedUser.maxTaps);
 			}
@@ -76,7 +76,7 @@ export const Header: Component = () => {
 				<div class={s.card}>
 					<div class={clsx(s.title, s.textPurple)}>Coins to level up</div>
 					<Show when={coinsToLevelUp()} fallback={<div>Max level</div>}>
-						{(coins) => <Price price={coins()} fontSize={14} />}
+						{(c) => <Price price={c()} fontSize={14} />}
 					</Show>
 				</div>
 				<div class={s.card}>
@@ -84,7 +84,7 @@ export const Header: Component = () => {
 					<Price price={profitPerHour()} fontSize={14} coinSize={20} withPlus />
 				</div>
 			</div>
-			<Price class={s.coins} price={coins()} fontSize={40} coinSize={60} standard withoutDecimals />
+			<Price class={s.coins} price={coins()} fontSize={40} coinSize={60} standard withoutDecimals separator=' ' />
 			<TitleCard class={s.taps}>
 				<img src={boltIcon} alt='bolt' height={26} />
 				<div class={s.tapsCount}>

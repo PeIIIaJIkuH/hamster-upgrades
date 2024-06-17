@@ -36,7 +36,7 @@ export const HomePage: Component = () => {
 				{(upgrade) => (
 					<>
 						<div class={s.image}>
-							<Image src={upgrade().id} alt={upgrade().name} size={115} />
+							<Image id={upgrade().id} alt={upgrade().name} size={115} />
 						</div>
 						<div class={clsx(s.title, 'roboto-flex-600')}>{upgrade().name}</div>
 						<div class={s.profit}>

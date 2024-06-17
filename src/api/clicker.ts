@@ -40,7 +40,6 @@ export type SyncState = {
 		level: number;
 		maxTaps: number;
 		tapsRecoverPerSec: number;
-		totalCoins: number;
 	};
 };
 
