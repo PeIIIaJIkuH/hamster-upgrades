@@ -58,10 +58,10 @@
 	outline: none;
 	background: #5a60ff;
 	color: #ffffff;
-	transition: background 3s;
 }
 
 .action:hover {
+	transition: background 3s;
 	background: #494fff;
 }
 
