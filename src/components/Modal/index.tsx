@@ -13,6 +13,8 @@ type ModalProps<T> = {
 	onClose: () => void;
 	buttonLabel: string;
 	duration?: number;
+	coins: Accessor<number>;
+	isActionDisabled?: (item: T) => boolean;
 	children: (item: Accessor<NonNullable<T>>) => JSX.Element;
 };
 
@@ -26,6 +28,8 @@ export function Modal<T>(props: ModalProps<T>): JSX.Element {
 		merged.onAction(merged.item());
 		merged.onClose();
 	};
+
+	const isDisabled = () => merged.isActionDisabled?.(merged.item()) ?? false;
 
 	return (
 		<Show when={mountedItem()}>
@@ -57,7 +61,7 @@ export function Modal<T>(props: ModalProps<T>): JSX.Element {
 							</div>
 							<div class={s.inner}>
 								{merged.children(item)}
-								<button class={clsx(s.action, 'roboto-flex-600')} onClick={handleAction}>
+								<button class={clsx(s.action, 'roboto-flex-600')} disabled={isDisabled()} onClick={handleAction}>
 									{merged.buttonLabel}
 								</button>
 							</div>

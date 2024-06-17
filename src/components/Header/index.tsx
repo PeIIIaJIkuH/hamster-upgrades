@@ -1,4 +1,4 @@
-import { Component, Show, createEffect, createSignal, onCleanup } from 'solid-js';
+import { Accessor, Component, Setter, Show, createEffect, createSignal, onCleanup } from 'solid-js';
 import clsx from 'clsx';
 
 import { claimDailyCipher, fetchConfig, fetchSync, sendTaps } from '../../api';
@@ -7,11 +7,17 @@ import { Price, TitleCard } from '..';
 import boltIcon from '/icons/bolt.svg';
 import s from './header.module.css';
 
-export const Header: Component = () => {
+type HeaderProps = {
+	profitPerHour: Accessor<number>;
+	setProfitPerHour: Setter<number>;
+	coins: Accessor<number>;
+	setCoins: Setter<number>;
+};
+
+export const Header: Component<HeaderProps> = (props) => {
 	const [earnPerTap, setEarnPerTap] = createSignal<number>(0);
 	const [coinsToLevelUp, setCoinsToLevelUp] = createSignal<number | null>(0);
-	const [profitPerHour, setProfitPerHour] = createSignal<number>(0);
-	const [coins, setCoins] = createSignal<number>(0);
+
 	const [taps, setTaps] = createSignal<number>(0);
 	const [maxTaps, setMaxTaps] = createSignal<number>(0);
 
@@ -24,8 +30,8 @@ export const Header: Component = () => {
 
 			const { clickerUser } = await fetchSync();
 			setEarnPerTap(clickerUser.earnPerTap);
-			setProfitPerHour(clickerUser.earnPassivePerHour);
-			setCoins(clickerUser.balanceCoins);
+			props.setProfitPerHour(clickerUser.earnPassivePerHour);
+			props.setCoins(clickerUser.balanceCoins);
 			setTaps(clickerUser.availableTaps);
 			setMaxTaps(clickerUser.maxTaps);
 
@@ -33,14 +39,14 @@ export const Header: Component = () => {
 			if (tapCount > 0) {
 				const { clickerUser: updatedUser } = await sendTaps(tapCount, clickerUser.availableTaps);
 				setEarnPerTap(updatedUser.earnPerTap);
-				setProfitPerHour(updatedUser.earnPassivePerHour);
-				setCoins(updatedUser.balanceCoins);
+				props.setProfitPerHour(updatedUser.earnPassivePerHour);
+				props.setCoins(updatedUser.balanceCoins);
 				setTaps(updatedUser.availableTaps);
 				setMaxTaps(updatedUser.maxTaps);
 			}
 
 			innerInterval = setInterval(() => {
-				setCoins((prev) => prev + clickerUser.earnPassivePerSec);
+				props.setCoins((prev) => prev + clickerUser.earnPassivePerSec);
 				setTaps((prev) => Math.min(prev + clickerUser.tapsRecoverPerSec, clickerUser.maxTaps));
 			}, 1000);
 
@@ -81,10 +87,10 @@ export const Header: Component = () => {
 				</div>
 				<div class={s.card}>
 					<div class={clsx(s.title, s.textGreen)}>Profit per hour</div>
-					<Price price={profitPerHour()} fontSize={14} coinSize={20} withPlus />
+					<Price price={props.profitPerHour()} fontSize={14} coinSize={20} withPlus />
 				</div>
 			</div>
-			<Price class={s.coins} price={coins()} fontSize={40} coinSize={60} standard withoutDecimals separator=' ' />
+			<Price class={s.coins} price={props.coins()} fontSize={40} coinSize={60} standard withoutDecimals separator=' ' />
 			<TitleCard class={s.taps}>
 				<img src={boltIcon} alt='bolt' height={26} />
 				<div class={s.tapsCount}>

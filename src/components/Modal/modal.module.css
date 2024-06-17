@@ -64,3 +64,8 @@
 .action:hover {
 	background: #494fff;
 }
+
+.action:disabled {
+	background: #4e4f50cc;
+	cursor: not-allowed;
+}

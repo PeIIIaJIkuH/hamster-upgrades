@@ -10,6 +10,8 @@ import s from './home.module.css';
 export const HomePage: Component = () => {
 	const [activeUpgrade, setActiveUpgrade] = createSignal<Upgrade | null>(null);
 	const [upgrades, { refetch: refetchUpgrades }] = createResource(fetchUpgrades);
+	const [profitPerHour, setProfitPerHour] = createSignal<number>(0);
+	const [coins, setCoins] = createSignal<number>(0);
 
 	const openUpgradeModal = (upgrade: Upgrade) => {
 		setActiveUpgrade(upgrade);
@@ -18,6 +20,8 @@ export const HomePage: Component = () => {
 	const handleModalAction = async (upgrade: Upgrade | null) => {
 		if (upgrade) {
 			const newUpgrades = await buyUpgrade(upgrade);
+			setCoins((prev) => prev - upgrade.price);
+			setProfitPerHour((prev) => prev + upgrade.profitPerHourDelta);
 			if (newUpgrades.dailyCombo.isClaimed && newUpgrades.dailyCombo.upgradeIds.includes(upgrade.id)) {
 				claimDailyCombo();
 			}
@@ -30,9 +34,20 @@ export const HomePage: Component = () => {
 		setActiveUpgrade(null);
 	};
 
+	const isActionDisabled = (upgrade: Upgrade | null) => {
+		return !upgrade || coins() < upgrade.price;
+	};
+
 	return (
 		<>
-			<Modal item={activeUpgrade} onAction={handleModalAction} onClose={handleUpgradeModalClose} buttonLabel='Upgrade'>
+			<Modal
+				item={activeUpgrade}
+				onAction={handleModalAction}
+				onClose={handleUpgradeModalClose}
+				buttonLabel='Upgrade'
+				coins={coins}
+				isActionDisabled={isActionDisabled}
+			>
 				{(upgrade) => (
 					<>
 						<div class={s.image}>
@@ -48,7 +63,7 @@ export const HomePage: Component = () => {
 				)}
 			</Modal>
 			<div class={s.home}>
-				<Header />
+				<Header profitPerHour={profitPerHour} setProfitPerHour={setProfitPerHour} coins={coins} setCoins={setCoins} />
 				<Show when={initDataRaw()} fallback={<Instructions />}>
 					<Upgrades upgrades={upgrades} onUpgradeClick={openUpgradeModal} />
 				</Show>
