@@ -19,6 +19,10 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+button {
+	-webkit-tap-highlight-color: transparent;
+}
+
 .roboto-flex-400 {
 	font-family: 'Roboto Flex', sans-serif;
 	font-optical-sizing: auto;
