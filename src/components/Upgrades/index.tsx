@@ -16,7 +16,10 @@ export const Upgrades: Component<UpgradesProps> = (props) => {
 			.upgrades()
 			?.upgradesForBuy.filter(
 				(upgrade) =>
-					upgrade.isAvailable && !upgrade.isExpired && (upgrade.maxLevel ? upgrade.level < upgrade.maxLevel : true),
+					upgrade.isAvailable &&
+					!upgrade.isExpired &&
+					(upgrade.maxLevel ? upgrade.level < upgrade.maxLevel : true) &&
+					upgrade.cooldownSeconds === 0,
 			)
 			.sort((a, b) => a.price / a.profitPerHourDelta - b.price / b.profitPerHourDelta) ?? [];
 
