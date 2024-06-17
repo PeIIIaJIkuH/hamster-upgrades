@@ -69,11 +69,13 @@ export const buyUpgrade = async (upgrade: Upgrade) => {
 };
 
 export const claimDailyCombo = async () => {
-	await api.post('clicker/claim-daily-combo');
+	const response = await api.post('clicker/claim-daily-combo');
+	return await response.json<SyncState>();
 };
 
 export const claimDailyCipher = async (cipher: string) => {
-	await api.post('clicker/claim-daily-cipher', { json: { cipher: atob(cipher) } });
+	const response = await api.post('clicker/claim-daily-cipher', { json: { cipher: atob(cipher) } });
+	return await response.json<SyncState>();
 };
 
 export const fetchSync = async () => {

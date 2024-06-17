@@ -58,7 +58,8 @@ export const Header: Component<HeaderProps> = (props) => {
 				}
 			}
 			if (!dailyCipher.isClaimed) {
-				await claimDailyCipher(dailyCipher.cipher);
+				const { clickerUser: updatedUser } = await claimDailyCipher(dailyCipher.cipher);
+				props.setCoins(updatedUser.balanceCoins);
 			}
 		};
 

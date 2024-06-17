@@ -23,7 +23,8 @@ export const HomePage: Component = () => {
 			setCoins((prev) => prev - upgrade.price);
 			setProfitPerHour((prev) => prev + upgrade.profitPerHourDelta);
 			if (newUpgrades.dailyCombo.isClaimed && newUpgrades.dailyCombo.upgradeIds.includes(upgrade.id)) {
-				claimDailyCombo();
+				const { clickerUser } = await claimDailyCombo();
+				setCoins(clickerUser.balanceCoins);
 			}
 			setActiveUpgrade(null);
 			await refetchUpgrades();
