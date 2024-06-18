@@ -40,7 +40,7 @@ export const HomePage: Component = () => {
 	};
 
 	return (
-		<>
+		<Show when={initDataRaw()} fallback={<Instructions />}>
 			<Modal
 				item={activeUpgrade}
 				onAction={handleModalAction}
@@ -65,10 +65,8 @@ export const HomePage: Component = () => {
 			</Modal>
 			<div class={s.home}>
 				<Header profitPerHour={profitPerHour} setProfitPerHour={setProfitPerHour} coins={coins} setCoins={setCoins} />
-				<Show when={initDataRaw()} fallback={<Instructions />}>
-					<Upgrades upgrades={upgrades} onUpgradeClick={openUpgradeModal} />
-				</Show>
+				<Upgrades upgrades={upgrades} onUpgradeClick={openUpgradeModal} />
 			</div>
-		</>
+		</Show>
 	);
 };
