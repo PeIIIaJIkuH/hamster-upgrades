@@ -55,7 +55,7 @@ export const HomePage: Component = () => {
 	};
 
 	return (
-		<Switch fallback={<Loader />}>
+		<Switch>
 			<Match when={store.authTokenLoading()}>
 				<Loader />
 			</Match>

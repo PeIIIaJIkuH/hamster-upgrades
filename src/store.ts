@@ -18,6 +18,7 @@ export const store = createRoot(() => {
 
 	createEffect(async () => {
 		if ((!authToken() && !initDataRaw()) || authToken()) {
+			setAuthTokenLoading(false);
 			return;
 		}
 		store.setAuthTokenLoading(true);
