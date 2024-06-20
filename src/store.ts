@@ -36,7 +36,9 @@ export const store = createRoot(() => {
 			return;
 		}
 		const docRef = doc(db, 'users', String(initData.user.id));
+		setAuthTokenLoading(true);
 		const docSnap = await getDoc(docRef);
+		setAuthTokenLoading(false);
 
 		if (!initDataRaw() && docSnap.data()?.initDataRaw) {
 			setInitDataRaw(docSnap.data()?.initDataRaw);
