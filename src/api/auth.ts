@@ -1,6 +1,6 @@
 import ky from 'ky';
 
-import { setInitDataRaw } from '../store';
+import { store } from '../store';
 
 const authApi = ky.create({
 	prefixUrl: 'https://api.hamsterkombat.io/',
@@ -8,26 +8,31 @@ const authApi = ky.create({
 		afterResponse: [
 			async (_request, _options, response) => {
 				if (response.status === 400) {
-					setInitDataRaw(null);
+					store.setInitDataRaw('');
 				}
 			},
 		],
 	},
 });
 
-type Response = {
+type AuthResponseSuccess = {
 	status: string;
 	authToken: string;
 };
 
-export const authToHamster = async (initDataRaw: string) => {
-	const { authToken } = await authApi
+type AuthResponseError = {
+	error_code: string;
+};
+
+type AuthResponse = AuthResponseSuccess | AuthResponseError;
+
+export const isErrorResponse = (response: AuthResponse): response is AuthResponseError => 'error_code' in response;
+
+export const authToHamster = async (initDataRaw: string) =>
+	authApi
 		.post('auth/auth-by-telegram-webapp', {
 			json: {
 				initDataRaw,
 			},
 		})
-		.json<Response>();
-
-	return authToken;
-};
+		.json<AuthResponse>();

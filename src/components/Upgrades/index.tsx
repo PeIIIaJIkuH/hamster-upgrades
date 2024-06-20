@@ -1,12 +1,13 @@
-import { Component, For, Resource, Show } from 'solid-js';
+import { Accessor, Component, For, Show } from 'solid-js';
 
-import { Upgrade, UpgradesState } from '../../api';
+import { Upgrade } from '../../api';
 import { Skeleton, SkeletonProps, UpgradeCard } from '..';
 
 import s from './upgrades.module.css';
 
 type UpgradesProps = {
-	upgrades: Resource<UpgradesState>;
+	upgrades: Accessor<Upgrade[]>;
+	upgradesLoading: Accessor<boolean>;
 	onUpgradeClick: (upgrade: Upgrade) => void;
 };
 
@@ -14,7 +15,7 @@ export const Upgrades: Component<UpgradesProps> = (props) => {
 	const upgradesForBuy = () =>
 		props
 			.upgrades()
-			?.upgradesForBuy.filter(
+			.filter(
 				(upgrade) =>
 					upgrade.isAvailable &&
 					!upgrade.isExpired &&
@@ -32,7 +33,7 @@ export const Upgrades: Component<UpgradesProps> = (props) => {
 	return (
 		<div class={s.upgrades}>
 			<Show
-				when={props.upgrades.state === 'ready'}
+				when={!props.upgradesLoading()}
 				fallback={
 					<For each={skeletons}>
 						{(skeleton) => <Skeleton height={skeleton.height} radius={skeleton.radius} color={skeleton.color} />}

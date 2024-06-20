@@ -1,17 +1,32 @@
-import { Component, Show, createResource, createSignal } from 'solid-js';
+import { Component, Show, createEffect, createSignal } from 'solid-js';
 import clsx from 'clsx';
 
-import { Upgrade, buyUpgrade, claimDailyCombo, fetchUpgrades } from '../../api';
+import { Upgrade, fetchUpgrades } from '../../api';
 import { Instructions, Modal, Price, Upgrades, Image, Header } from '../../components';
-import { initDataRaw } from '../../store';
+import { store } from '../../store';
 
 import s from './home.module.css';
+import { makePersisted } from '@solid-primitives/storage';
+import { LOCAL_STORAGE_KEY } from '../../constants';
 
 export const HomePage: Component = () => {
 	const [activeUpgrade, setActiveUpgrade] = createSignal<Upgrade | null>(null);
-	const [upgrades, { refetch: refetchUpgrades }] = createResource(fetchUpgrades);
-	const [profitPerHour, setProfitPerHour] = createSignal<number>(0);
-	const [coins, setCoins] = createSignal<number>(0);
+	const [upgrades, setUpgrades] = createSignal<Upgrade[]>([]);
+	const [upgradesLoading, setUpgradesLoading] = createSignal<boolean>(false);
+	const [profitPerHour, setProfitPerHour] = makePersisted(createSignal<number>(0), {
+		name: LOCAL_STORAGE_KEY.PROFIT_PER_HOUR,
+	});
+	const [coins, setCoins] = makePersisted(createSignal<number>(0), { name: LOCAL_STORAGE_KEY.COINS });
+
+	createEffect(async () => {
+		if (!store.authToken()) {
+			return;
+		}
+		setUpgradesLoading(true);
+		const response = await fetchUpgrades(store.authToken());
+		setUpgrades(response.upgradesForBuy);
+		setUpgradesLoading(false);
+	});
 
 	const openUpgradeModal = (upgrade: Upgrade) => {
 		setActiveUpgrade(upgrade);
@@ -19,15 +34,15 @@ export const HomePage: Component = () => {
 
 	const handleModalAction = async (upgrade: Upgrade | null) => {
 		if (upgrade) {
-			const newUpgrades = await buyUpgrade(upgrade);
-			setCoins((prev) => prev - upgrade.price);
-			setProfitPerHour((prev) => prev + upgrade.profitPerHourDelta);
-			if (newUpgrades.dailyCombo.isClaimed && newUpgrades.dailyCombo.upgradeIds.includes(upgrade.id)) {
-				const { clickerUser } = await claimDailyCombo();
-				setCoins(clickerUser.balanceCoins);
-			}
+			// const newUpgrades = await buyUpgrade(store.authToken(), upgrade);
+			// setCoins((prev) => prev - upgrade.price);
+			// setProfitPerHour((prev) => prev + upgrade.profitPerHourDelta);
+			// if (newUpgrades.dailyCombo.isClaimed && newUpgrades.dailyCombo.upgradeIds.includes(upgrade.id)) {
+			// 	const { clickerUser } = await claimDailyCombo(store.authToken());
+			// 	setCoins(clickerUser.balanceCoins);
+			// }
 			setActiveUpgrade(null);
-			await refetchUpgrades();
+			// await refetchUpgrades();
 		}
 	};
 
@@ -40,7 +55,7 @@ export const HomePage: Component = () => {
 	};
 
 	return (
-		<Show when={initDataRaw()} fallback={<Instructions />}>
+		<Show when={store.initDataRaw()} fallback={<Instructions />}>
 			<Modal
 				item={activeUpgrade}
 				onAction={handleModalAction}
@@ -65,7 +80,7 @@ export const HomePage: Component = () => {
 			</Modal>
 			<div class={s.home}>
 				<Header profitPerHour={profitPerHour} setProfitPerHour={setProfitPerHour} coins={coins} setCoins={setCoins} />
-				<Upgrades upgrades={upgrades} onUpgradeClick={openUpgradeModal} />
+				<Upgrades upgrades={upgrades} upgradesLoading={upgradesLoading} onUpgradeClick={openUpgradeModal} />
 			</div>
 		</Show>
 	);

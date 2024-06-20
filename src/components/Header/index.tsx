@@ -1,11 +1,14 @@
 import { Accessor, Component, Setter, Show, createEffect, createSignal, onCleanup } from 'solid-js';
 import clsx from 'clsx';
 
-import { claimDailyCipher, fetchConfig, fetchSync, sendTaps } from '../../api';
+import { fetchConfig, fetchSync, sendTaps } from '../../api';
 import { Price, TitleCard } from '..';
 
 import boltIcon from '/icons/bolt.svg';
 import s from './header.module.css';
+import { store } from '../../store';
+import { makePersisted } from '@solid-primitives/storage';
+import { LOCAL_STORAGE_KEY } from '../../constants';
 
 type HeaderProps = {
 	profitPerHour: Accessor<number>;
@@ -15,11 +18,13 @@ type HeaderProps = {
 };
 
 export const Header: Component<HeaderProps> = (props) => {
-	const [earnPerTap, setEarnPerTap] = createSignal<number>(0);
-	const [coinsToLevelUp, setCoinsToLevelUp] = createSignal<number | null>(0);
+	const [earnPerTap, setEarnPerTap] = makePersisted(createSignal<number>(0), { name: LOCAL_STORAGE_KEY.EARN_PER_TAP });
+	const [coinsToLevelUp, setCoinsToLevelUp] = makePersisted(createSignal<number>(0), {
+		name: LOCAL_STORAGE_KEY.COINS_TO_LEVEL_UP,
+	});
 
-	const [taps, setTaps] = createSignal<number>(0);
-	const [maxTaps, setMaxTaps] = createSignal<number>(0);
+	const [taps, setTaps] = makePersisted(createSignal<number>(0), { name: LOCAL_STORAGE_KEY.TAPS });
+	const [maxTaps, setMaxTaps] = makePersisted(createSignal<number>(0), { name: LOCAL_STORAGE_KEY.MAX_TAPS });
 
 	let outerInterval: number;
 	let innerInterval: number;
@@ -28,7 +33,7 @@ export const Header: Component<HeaderProps> = (props) => {
 		const sync = async () => {
 			if (innerInterval) clearInterval(innerInterval);
 
-			const { clickerUser } = await fetchSync();
+			const { clickerUser } = await fetchSync(store.authToken());
 			setEarnPerTap(clickerUser.earnPerTap);
 			props.setProfitPerHour(clickerUser.earnPassivePerHour);
 			props.setCoins(clickerUser.balanceCoins);
@@ -37,7 +42,7 @@ export const Header: Component<HeaderProps> = (props) => {
 
 			const tapCount = Math.floor(clickerUser.availableTaps / clickerUser.earnPerTap);
 			if (tapCount > 0) {
-				const { clickerUser: updatedUser } = await sendTaps(tapCount, clickerUser.availableTaps);
+				const { clickerUser: updatedUser } = await sendTaps(store.authToken(), tapCount, clickerUser.availableTaps);
 				setEarnPerTap(updatedUser.earnPerTap);
 				props.setProfitPerHour(updatedUser.earnPassivePerHour);
 				props.setCoins(updatedUser.balanceCoins);
@@ -45,27 +50,27 @@ export const Header: Component<HeaderProps> = (props) => {
 				setMaxTaps(updatedUser.maxTaps);
 			}
 
-			innerInterval = setInterval(() => {
+			innerInterval = window.setInterval(() => {
 				props.setCoins((prev) => prev + clickerUser.earnPassivePerSec);
 				setTaps((prev) => Math.min(prev + clickerUser.tapsRecoverPerSec, clickerUser.maxTaps));
 			}, 1000);
 
-			const { clickerConfig, dailyCipher } = await fetchConfig();
+			const { clickerConfig } = await fetchConfig(store.authToken());
 			for (const { level, coinsToLeveUp } of clickerConfig.userLevels_balanceCoins) {
 				if (clickerUser.level === level) {
-					setCoinsToLevelUp(coinsToLeveUp);
+					setCoinsToLevelUp(coinsToLeveUp ?? 0);
 					break;
 				}
 			}
-			if (!dailyCipher.isClaimed) {
-				const { clickerUser: updatedUser } = await claimDailyCipher(dailyCipher.cipher);
-				props.setCoins(updatedUser.balanceCoins);
-			}
+			// if (!dailyCipher.isClaimed) {
+			// 	const { clickerUser: updatedUser } = await claimDailyCipher(store.authToken(), dailyCipher.cipher);
+			// 	props.setCoins(updatedUser.balanceCoins);
+			// }
 		};
 
 		sync();
 
-		outerInterval = setInterval(sync, 5 * 60 * 1000);
+		outerInterval = window.setInterval(sync, 5 * 60 * 1000);
 
 		onCleanup(() => {
 			if (outerInterval) clearInterval(outerInterval);

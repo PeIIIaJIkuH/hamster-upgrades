@@ -56,39 +56,78 @@ export type ConfigState = {
 	};
 };
 
-export const fetchUpgrades = async () => {
-	const response = api.post('clicker/upgrades-for-buy', { headers: { [HANDLE_400_AS_401]: 'true' } });
-	return await response.json<UpgradesState>();
-};
-
-export const buyUpgrade = async (upgrade: Upgrade) => {
-	const response = api.post('clicker/buy-upgrade', {
-		json: { upgradeId: upgrade.id, timestamp: Date.now() },
+export const fetchUpgrades = async (authToken: string) => {
+	const response = api.post('clicker/upgrades-for-buy', {
+		headers: {
+			[HANDLE_400_AS_401]: 'true',
+			Authorization: `Bearer ${authToken}`,
+		},
 	});
 	return await response.json<UpgradesState>();
 };
 
-export const claimDailyCombo = async () => {
-	const response = await api.post('clicker/claim-daily-combo');
+export const buyUpgrade = async (authToken: string, upgrade: Upgrade) => {
+	const response = api.post('clicker/buy-upgrade', {
+		json: {
+			upgradeId: upgrade.id,
+			timestamp: Date.now(),
+		},
+		headers: {
+			Authorization: `Bearer ${authToken}`,
+		},
+	});
+	return await response.json<UpgradesState>();
+};
+
+export const claimDailyCombo = async (authToken: string) => {
+	const response = await api.post('clicker/claim-daily-combo', {
+		headers: {
+			Authorization: `Bearer ${authToken}`,
+		},
+	});
 	return await response.json<SyncState>();
 };
 
-export const claimDailyCipher = async (cipher: string) => {
-	const response = await api.post('clicker/claim-daily-cipher', { json: { cipher: atob(cipher) } });
+export const claimDailyCipher = async (authToken: string, cipher: string) => {
+	const response = await api.post('clicker/claim-daily-cipher', {
+		json: {
+			cipher: window.atob(cipher),
+		},
+		headers: {
+			Authorization: `Bearer ${authToken}`,
+		},
+	});
 	return await response.json<SyncState>();
 };
 
-export const fetchSync = async () => {
-	const response = api.post('clicker/sync');
+export const fetchSync = async (authToken: string) => {
+	const response = api.post('clicker/sync', {
+		headers: {
+			Authorization: `Bearer ${authToken}`,
+		},
+	});
 	return await response.json<SyncState>();
 };
 
-export const fetchConfig = async () => {
-	const response = api.post('clicker/config');
+export const fetchConfig = async (authToken: string) => {
+	const response = api.post('clicker/config', {
+		headers: {
+			Authorization: `Bearer ${authToken}`,
+		},
+	});
 	return await response.json<ConfigState>();
 };
 
-export const sendTaps = async (count: number, availableTaps: number) => {
-	const response = await api.post('clicker/tap', { json: { count, availableTaps, timestamp: Date.now() } });
+export const sendTaps = async (authToken: string, count: number, availableTaps: number) => {
+	const response = await api.post('clicker/tap', {
+		json: {
+			count,
+			availableTaps,
+			timestamp: Date.now(),
+		},
+		headers: {
+			Authorization: `Bearer ${authToken}`,
+		},
+	});
 	return await response.json<SyncState>();
 };

@@ -1,9 +1,6 @@
 .wrapper {
 	max-width: 600px;
-	margin: 20px auto;
 	padding: 20px;
-	border: 1px solid #ccc;
-	border-radius: 8px;
 }
 
 .wrapper p {
@@ -16,9 +13,28 @@
 	padding-left: 20px;
 }
 
-.code {
+.wrapper ol li {
+	margin-bottom: 10px;
+}
+
+.wrapper code {
 	font-family: monospace;
 	background-color: #444;
 	padding: 2px 4px;
 	border-radius: 4px;
+}
+
+.buttonWrapper {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.wrapper button {
+	background: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	padding: 10px 20px;
+	cursor: pointer;
 }
