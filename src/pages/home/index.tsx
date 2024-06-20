@@ -34,7 +34,6 @@ export const HomePage: Component = () => {
 
 	const handleModalAction = async (upgrade: Upgrade | null) => {
 		if (upgrade) {
-			setUpgradesLoading(true);
 			const newUpgrades = await buyUpgrade(store.authToken(), upgrade);
 			setCoins((prev) => prev - upgrade.price);
 			setProfitPerHour((prev) => prev + upgrade.profitPerHourDelta);
@@ -44,7 +43,6 @@ export const HomePage: Component = () => {
 			}
 			setActiveUpgrade(null);
 			setUpgrades(newUpgrades.upgradesForBuy);
-			setUpgradesLoading(false);
 		}
 	};
 
