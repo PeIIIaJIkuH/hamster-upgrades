@@ -1,0 +1,9 @@
+.toast {
+	color: #ffffff !important;
+	background: rgba(39, 42, 47, 0.9) !important;
+	font-size: 12px !important;
+	border-radius: 16px !important;
+	max-width: 100% !important;
+	width: 100% !important;
+	padding: 6px !important;
+}

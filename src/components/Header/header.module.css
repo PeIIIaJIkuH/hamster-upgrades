@@ -48,5 +48,50 @@
 
 .taps {
 	display: flex;
+	align-items: center;
 	gap: 9px;
+}
+
+.daily {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 9px;
+}
+
+.dailyItem {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	font-size: 14px;
+}
+
+.claim {
+	background: #272a2f;
+	border: 1px solid #7277ff;
+	border-radius: 5px;
+	color: #7277ff;
+	padding: 5px 10px;
+	cursor: pointer;
+	transition:
+		background 0.3s,
+		color 0.3s;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.claim:hover {
+	background: #7277ff;
+	color: #ffffff;
+}
+
+.claim:active {
+	transform: translateY(1px);
+}
+
+.claimed {
+	background: #7277ff;
+	border: 1px solid #7277ff;
+	border-radius: 5px;
+	color: #ffffff;
+	padding: 5px 10px;
 }

@@ -3,6 +3,7 @@ import { SDKProvider, retrieveLaunchParams } from '@tma.js/sdk-solid';
 import eruda from 'eruda';
 
 import { App } from './App';
+import { Toaster } from '.';
 
 const Inner: Component = () => {
 	const { startParam } = retrieveLaunchParams();
@@ -13,6 +14,7 @@ const Inner: Component = () => {
 
 	return (
 		<SDKProvider acceptCustomStyles debug={debug}>
+			<Toaster />
 			<App />
 		</SDKProvider>
 	);

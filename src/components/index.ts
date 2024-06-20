@@ -8,3 +8,5 @@ export { Instructions } from './Instructions';
 export { Modal } from './Modal';
 export { Header } from './Header';
 export { Loader } from './Loader';
+export { Icons } from './Icons';
+export { Toaster } from './Toaster';

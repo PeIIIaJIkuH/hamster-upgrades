@@ -1,18 +1,20 @@
 import { Component, Match, Switch, createEffect, createSignal } from 'solid-js';
 import clsx from 'clsx';
 
-import { Upgrade, buyUpgrade, claimDailyCombo, fetchUpgrades } from '../../api';
+import { DailyCombo, Upgrade, buyUpgrade, claimDailyCombo, fetchUpgrades } from '../../api';
 import { Instructions, Modal, Price, Upgrades, Image, Header, Loader } from '../../components';
 import { store } from '../../store';
 
 import s from './home.module.css';
 import { makePersisted } from '@solid-primitives/storage';
 import { LOCAL_STORAGE_KEY } from '../../constants';
+import toast from 'solid-toast';
 
 export const HomePage: Component = () => {
 	const [activeUpgrade, setActiveUpgrade] = createSignal<Upgrade | null>(null);
 	const [upgrades, setUpgrades] = createSignal<Upgrade[]>([]);
 	const [upgradesLoading, setUpgradesLoading] = createSignal<boolean>(false);
+	const [dailyCombo, setDailyCombo] = createSignal<DailyCombo | null>(null);
 	const [profitPerHour, setProfitPerHour] = makePersisted(createSignal<number>(0), {
 		name: LOCAL_STORAGE_KEY.PROFIT_PER_HOUR,
 	});
@@ -25,6 +27,7 @@ export const HomePage: Component = () => {
 		setUpgradesLoading(true);
 		const response = await fetchUpgrades(store.authToken());
 		setUpgrades(response.upgradesForBuy);
+		setDailyCombo(response.dailyCombo);
 		setUpgradesLoading(false);
 	});
 
@@ -37,12 +40,20 @@ export const HomePage: Component = () => {
 			const newUpgrades = await buyUpgrade(store.authToken(), upgrade);
 			setCoins((prev) => prev - upgrade.price);
 			setProfitPerHour((prev) => prev + upgrade.profitPerHourDelta);
-			if (newUpgrades.dailyCombo.isClaimed && newUpgrades.dailyCombo.upgradeIds.includes(upgrade.id)) {
+			const combo = dailyCombo();
+			if (combo && !combo.isClaimed && newUpgrades.dailyCombo.upgradeIds.length === 3) {
 				const { clickerUser } = await claimDailyCombo(store.authToken());
 				setCoins(clickerUser.balanceCoins);
+				toast.success('Daily combo claimed successfully');
+			} else if (combo && combo.upgradeIds.length < newUpgrades.dailyCombo.upgradeIds.length) {
+				setDailyCombo(newUpgrades.dailyCombo);
+				toast.success(
+					`Daily combo progress: ${newUpgrades.dailyCombo.upgradeIds.length}/${combo.upgradeIds.length + 1} upgrades`,
+				);
 			}
-			setActiveUpgrade(null);
 			setUpgrades(newUpgrades.upgradesForBuy);
+			toast.success('Upgrade bought successfully');
+			setActiveUpgrade(null);
 		}
 	};
 
@@ -86,7 +97,13 @@ export const HomePage: Component = () => {
 					)}
 				</Modal>
 				<div class={s.home}>
-					<Header profitPerHour={profitPerHour} setProfitPerHour={setProfitPerHour} coins={coins} setCoins={setCoins} />
+					<Header
+						profitPerHour={profitPerHour}
+						setProfitPerHour={setProfitPerHour}
+						coins={coins}
+						setCoins={setCoins}
+						dailyComboAmount={dailyCombo}
+					/>
 					<Upgrades upgrades={upgrades} upgradesLoading={upgradesLoading} onUpgradeClick={openUpgradeModal} />
 				</div>
 			</Match>

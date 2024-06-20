@@ -1,20 +1,30 @@
 import { Accessor, Component, Setter, Show, createEffect, createSignal, onCleanup } from 'solid-js';
+import { makePersisted } from '@solid-primitives/storage';
+import toast from 'solid-toast';
 import clsx from 'clsx';
 
-import { fetchConfig, fetchSync, sendTaps } from '../../api';
+import {
+	DailyCipher,
+	DailyCombo,
+	claimDailyCipher,
+	fetchConfig,
+	fetchSync,
+	isErrorResponse,
+	sendTaps,
+} from '../../api';
+import { LOCAL_STORAGE_KEY } from '../../constants';
+import { store } from '../../store';
 import { Price, TitleCard } from '..';
 
 import boltIcon from '/icons/bolt.svg';
 import s from './header.module.css';
-import { store } from '../../store';
-import { makePersisted } from '@solid-primitives/storage';
-import { LOCAL_STORAGE_KEY } from '../../constants';
 
 type HeaderProps = {
 	profitPerHour: Accessor<number>;
 	setProfitPerHour: Setter<number>;
 	coins: Accessor<number>;
 	setCoins: Setter<number>;
+	dailyComboAmount: Accessor<DailyCombo | null>;
 };
 
 export const Header: Component<HeaderProps> = (props) => {
@@ -22,6 +32,7 @@ export const Header: Component<HeaderProps> = (props) => {
 	const [coinsToLevelUp, setCoinsToLevelUp] = makePersisted(createSignal<number>(0), {
 		name: LOCAL_STORAGE_KEY.COINS_TO_LEVEL_UP,
 	});
+	const [dailyCipher, setDailyCipher] = createSignal<DailyCipher>({ cipher: '', isClaimed: false });
 
 	const [taps, setTaps] = makePersisted(createSignal<number>(0), { name: LOCAL_STORAGE_KEY.TAPS });
 	const [maxTaps, setMaxTaps] = makePersisted(createSignal<number>(0), { name: LOCAL_STORAGE_KEY.MAX_TAPS });
@@ -58,17 +69,14 @@ export const Header: Component<HeaderProps> = (props) => {
 				setTaps((prev) => Math.min(prev + clickerUser.tapsRecoverPerSec, clickerUser.maxTaps));
 			}, 1000);
 
-			const { clickerConfig } = await fetchConfig(store.authToken());
+			const { clickerConfig, dailyCipher: cipher } = await fetchConfig(store.authToken());
+			setDailyCipher(cipher);
 			for (const { level, coinsToLeveUp } of clickerConfig.userLevels_balanceCoins) {
 				if (clickerUser.level === level) {
 					setCoinsToLevelUp(coinsToLeveUp ?? 0);
 					break;
 				}
 			}
-			// if (!dailyCipher.isClaimed) {
-			// 	const { clickerUser: updatedUser } = await claimDailyCipher(store.authToken(), dailyCipher.cipher);
-			// 	props.setCoins(updatedUser.balanceCoins);
-			// }
 		};
 
 		sync();
@@ -80,6 +88,18 @@ export const Header: Component<HeaderProps> = (props) => {
 			if (innerInterval) clearInterval(innerInterval);
 		});
 	});
+
+	const handleClaim = async () => {
+		const cipher = prompt('Enter the cipher');
+		if (cipher) {
+			const response = await claimDailyCipher(store.authToken(), cipher);
+			if (!isErrorResponse(response)) {
+				props.setCoins(response.clickerUser.balanceCoins);
+				setDailyCipher({ cipher: cipher.toUpperCase(), isClaimed: true });
+				toast.success('Daily cipher claimed successfully');
+			}
+		}
+	};
 
 	return (
 		<div class={s.header}>
@@ -104,6 +124,24 @@ export const Header: Component<HeaderProps> = (props) => {
 				<img src={boltIcon} alt='bolt' height={26} />
 				<div class={s.tapsCount}>
 					{taps()} / {maxTaps()}
+				</div>
+			</TitleCard>
+			<TitleCard class={s.daily}>
+				<div class={s.dailyItem}>
+					<div>Daily combo</div>
+					<div>{props.dailyComboAmount()?.upgradeIds.length} / 3</div>
+				</div>
+				<div class={s.dailyItem}>
+					<div>Daily cipher</div>
+					<div>
+						{dailyCipher().isClaimed ? (
+							<button class={s.claimed}>Claimed</button>
+						) : (
+							<button class={s.claim} onClick={handleClaim}>
+								Claim
+							</button>
+						)}
+					</div>
 				</div>
 			</TitleCard>
 		</div>

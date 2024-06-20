@@ -3,7 +3,7 @@ import { createPresence } from '@solid-primitives/presence';
 import { Portal } from 'solid-js/web';
 import clsx from 'clsx';
 
-import { CloseIcon } from './CloseIcon';
+import { Icons } from '..';
 
 import s from './modal.module.css';
 
@@ -57,7 +57,7 @@ export function Modal<T>(props: ModalProps<T>): JSX.Element {
 							}}
 						>
 							<div class={s.close} onClick={merged.onClose}>
-								<CloseIcon />
+								<Icons.Close size={32} />
 							</div>
 							<div class={s.inner}>
 								{merged.children(item)}

@@ -1,5 +1,9 @@
 import { HANDLE_400_AS_401, api } from '.';
 
+type ErrorResponse = {
+	error_code: string;
+};
+
 export type Upgrade = {
 	id: string;
 	name: string;
@@ -18,7 +22,7 @@ export type Upgrade = {
 	welcomeCoins?: number;
 };
 
-type DailyCombo = {
+export type DailyCombo = {
 	upgradeIds: string[];
 	bonusCoins: number;
 	isClaimed: boolean;
@@ -43,6 +47,11 @@ export type SyncState = {
 	};
 };
 
+export type DailyCipher = {
+	cipher: string;
+	isClaimed: boolean;
+};
+
 export type ConfigState = {
 	clickerConfig: {
 		userLevels_balanceCoins: {
@@ -50,11 +59,11 @@ export type ConfigState = {
 			coinsToLeveUp: number | null;
 		}[];
 	};
-	dailyCipher: {
-		cipher: string;
-		isClaimed: boolean;
-	};
+	dailyCipher: DailyCipher;
 };
+
+export const isErrorResponse = (response: ErrorResponse | SyncState): response is ErrorResponse =>
+	'error_code' in response;
 
 export const fetchUpgrades = async (authToken: string) => {
 	const response = api.post('clicker/upgrades-for-buy', {
@@ -97,7 +106,7 @@ export const claimDailyCipher = async (authToken: string, cipher: string) => {
 			Authorization: `Bearer ${authToken}`,
 		},
 	});
-	return await response.json<SyncState>();
+	return await response.json<SyncState | ErrorResponse>();
 };
 
 export const fetchSync = async (authToken: string) => {
