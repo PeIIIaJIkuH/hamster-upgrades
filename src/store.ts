@@ -41,7 +41,7 @@ export const store = createRoot(() => {
 		if (!initDataRaw() && docSnap.data()?.initDataRaw) {
 			setInitDataRaw(docSnap.data()?.initDataRaw);
 		}
-		if (initDataRaw() && !docSnap.data()?.initDataRaw) {
+		if (initDataRaw()) {
 			await setDoc(docRef, { initDataRaw: initDataRaw(), from: authState.user?.uid });
 		}
 	});
