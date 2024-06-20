@@ -1,7 +1,8 @@
 import { Component } from 'solid-js';
+
 import toast, { Toaster as SolidToaster } from 'solid-toast';
 
-import { Icons } from '..';
+import { Icons } from '@/components';
 
 import s from './toaster.module.css';
 

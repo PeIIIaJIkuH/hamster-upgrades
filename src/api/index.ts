@@ -1,8 +1,9 @@
 import ky from 'ky';
 
-import { store } from '../store';
+import { notifyError } from '@/components';
+import { store } from '@/store';
+
 import { authToHamster, isErrorResponse } from './auth';
-import { notifyError } from '../components';
 
 export const HANDLE_400_AS_401 = 'X-Custom-Handle-400-As-401';
 

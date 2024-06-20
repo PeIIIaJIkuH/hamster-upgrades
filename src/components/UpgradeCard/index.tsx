@@ -1,8 +1,9 @@
 import { Accessor, Component, createEffect, createSignal, onCleanup } from 'solid-js';
+
 import clsx from 'clsx';
 
-import { Upgrade } from '../../api';
-import { Icons, Image, Price } from '..';
+import { Upgrade } from '@/api';
+import { Icons, Image, Price } from '@/components';
 
 import s from './upgrade-card.module.css';
 

@@ -1,6 +1,6 @@
 import ky from 'ky';
 
-import { store } from '../store';
+import { store } from '@/store';
 
 const authApi = ky.create({
 	prefixUrl: 'https://api.hamsterkombat.io/',

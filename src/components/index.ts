@@ -10,3 +10,5 @@ export { Header } from './Header';
 export { Loader } from './Loader';
 export { Icons } from './Icons';
 export { Toaster, notifySuccess, notifyError } from './Toaster';
+export { DevRoot } from './DevRoot';
+export { Root } from './Root';

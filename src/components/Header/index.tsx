@@ -1,19 +1,12 @@
 import { Accessor, Component, Setter, Show, createEffect, createSignal, onCleanup } from 'solid-js';
+
 import { makePersisted } from '@solid-primitives/storage';
 import clsx from 'clsx';
 
-import {
-	DailyCipher,
-	DailyCombo,
-	claimDailyCipher,
-	fetchConfig,
-	fetchSync,
-	isErrorResponse,
-	sendTaps,
-} from '../../api';
-import { LOCAL_STORAGE_KEY } from '../../constants';
-import { store } from '../../store';
-import { Icons, Price, TitleCard, notifySuccess } from '..';
+import { DailyCipher, DailyCombo, claimDailyCipher, fetchConfig, fetchSync, isErrorResponse, sendTaps } from '@/api';
+import { Icons, Price, TitleCard, notifySuccess } from '@/components';
+import { LOCAL_STORAGE_KEY } from '@/constants';
+import { store } from '@/store';
 
 import s from './header.module.css';
 

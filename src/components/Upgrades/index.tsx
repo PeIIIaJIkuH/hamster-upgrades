@@ -1,7 +1,7 @@
 import { Accessor, Component, For, Show } from 'solid-js';
 
-import { Upgrade } from '../../api';
-import { Skeleton, SkeletonProps, UpgradeCard } from '..';
+import { Upgrade } from '@/api';
+import { Skeleton, SkeletonProps, UpgradeCard } from '@/components';
 
 import s from './upgrades.module.css';
 

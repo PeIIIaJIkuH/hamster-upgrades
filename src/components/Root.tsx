@@ -1,9 +1,11 @@
 import { Component, ErrorBoundary, Match, Switch } from 'solid-js';
+
 import { SDKProvider, retrieveLaunchParams } from '@tma.js/sdk-solid';
 import eruda from 'eruda';
 
+import { Toaster } from '@/components';
+
 import { App } from './App';
-import { Toaster } from '.';
 
 const Inner: Component = () => {
 	const { startParam } = retrieveLaunchParams();

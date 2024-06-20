@@ -1,10 +1,12 @@
-import clsx from 'clsx';
 import { Component, Show } from 'solid-js';
+
+import clsx from 'clsx';
 
 import { numberFormat } from './helpers';
 
-import coinIcon from '/icons/coin.png';
 import s from './price.module.css';
+
+import coinIcon from '/icons/coin.png';
 
 type PriceProps = {
 	price: number;

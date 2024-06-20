@@ -24,6 +24,8 @@
 	"devDependencies": {
 		"@eslint/js": "^9.5.0",
 		"eslint": "9.x",
+		"eslint-plugin-perfectionist": "^2.11.0",
+		"eslint-plugin-solid": "^0.14.1",
 		"globals": "^15.5.0",
 		"prettier": "3.3.2",
 		"typescript": "^5.2.2",

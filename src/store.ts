@@ -1,11 +1,12 @@
 import { createEffect, createRoot, createSignal } from 'solid-js';
+
 import { makePersisted } from '@solid-primitives/storage';
 import { retrieveLaunchParams } from '@tma.js/sdk-solid';
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 
-import { authToHamster, isErrorResponse } from './api/auth';
-import { app, useAuth } from './firebase';
-import { LOCAL_STORAGE_KEY } from './constants';
+import { authToHamster, isErrorResponse } from '@/api/auth';
+import { LOCAL_STORAGE_KEY } from '@/constants';
+import { app, useAuth } from '@/firebase';
 
 export const store = createRoot(() => {
 	const [initDataRaw, setInitDataRaw] = makePersisted(createSignal(''), { name: LOCAL_STORAGE_KEY.INIT_DATA_RAW });

@@ -1,8 +1,7 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
 
-import { DevRoot } from './components/DevRoot';
-import { Root } from './components/Root';
+import { DevRoot, Root } from '@/components';
 
 import './index.css';
 

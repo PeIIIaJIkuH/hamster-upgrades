@@ -1,6 +1,6 @@
 import { Component } from 'solid-js';
 
-import { HomePage } from '../pages/home';
+import { HomePage } from '@/pages';
 
 type Route = {
 	path: string;

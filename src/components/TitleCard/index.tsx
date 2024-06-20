@@ -1,4 +1,5 @@
 import { Component, ParentProps } from 'solid-js';
+
 import clsx from 'clsx';
 
 import s from './title-card.module.css';

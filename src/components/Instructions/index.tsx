@@ -1,6 +1,6 @@
 import { Component } from 'solid-js';
 
-import { store } from '../../store';
+import { store } from '@/store';
 
 import s from './instructions.module.css';
 

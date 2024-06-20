@@ -1,9 +1,10 @@
 import { Component } from 'solid-js';
 
+import clsx from 'clsx';
+
 import { getImagePath } from './helpers';
 
 import s from './image.module.css';
-import clsx from 'clsx';
 
 type ImageProps = {
 	id: string;

@@ -1,11 +1,12 @@
 import { Component, Match, Switch, createEffect, createSignal } from 'solid-js';
+
 import { makePersisted } from '@solid-primitives/storage';
 import clsx from 'clsx';
 
-import { DailyCombo, Upgrade, buyUpgrade, claimDailyCombo, fetchUpgrades } from '../../api';
-import { Instructions, Modal, Price, Upgrades, Image, Header, Loader, notifySuccess } from '../../components';
-import { LOCAL_STORAGE_KEY } from '../../constants';
-import { store } from '../../store';
+import { DailyCombo, Upgrade, buyUpgrade, claimDailyCombo, fetchUpgrades } from '@/api';
+import { Instructions, Modal, Price, Upgrades, Image, Header, Loader, notifySuccess } from '@/components';
+import { LOCAL_STORAGE_KEY } from '@/constants';
+import { store } from '@/store';
 
 import s from './home.module.css';
 

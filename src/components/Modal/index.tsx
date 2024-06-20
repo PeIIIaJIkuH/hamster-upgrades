@@ -1,9 +1,10 @@
 import { Accessor, JSX, Show, mergeProps } from 'solid-js';
-import { createPresence } from '@solid-primitives/presence';
-import { Portal } from 'solid-js/web';
-import clsx from 'clsx';
 
-import { Icons } from '..';
+import { createPresence } from '@solid-primitives/presence';
+import clsx from 'clsx';
+import { Portal } from 'solid-js/web';
+
+import { Icons } from '@/components';
 
 import s from './modal.module.css';
 
