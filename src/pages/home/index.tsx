@@ -1,7 +1,7 @@
 import { Component, Show, createEffect, createSignal } from 'solid-js';
 import clsx from 'clsx';
 
-import { Upgrade, fetchUpgrades } from '../../api';
+import { Upgrade, buyUpgrade, claimDailyCombo, fetchUpgrades } from '../../api';
 import { Instructions, Modal, Price, Upgrades, Image, Header } from '../../components';
 import { store } from '../../store';
 
@@ -34,15 +34,17 @@ export const HomePage: Component = () => {
 
 	const handleModalAction = async (upgrade: Upgrade | null) => {
 		if (upgrade) {
-			// const newUpgrades = await buyUpgrade(store.authToken(), upgrade);
-			// setCoins((prev) => prev - upgrade.price);
-			// setProfitPerHour((prev) => prev + upgrade.profitPerHourDelta);
-			// if (newUpgrades.dailyCombo.isClaimed && newUpgrades.dailyCombo.upgradeIds.includes(upgrade.id)) {
-			// 	const { clickerUser } = await claimDailyCombo(store.authToken());
-			// 	setCoins(clickerUser.balanceCoins);
-			// }
+			setUpgradesLoading(true);
+			const newUpgrades = await buyUpgrade(store.authToken(), upgrade);
+			setCoins((prev) => prev - upgrade.price);
+			setProfitPerHour((prev) => prev + upgrade.profitPerHourDelta);
+			if (newUpgrades.dailyCombo.isClaimed && newUpgrades.dailyCombo.upgradeIds.includes(upgrade.id)) {
+				const { clickerUser } = await claimDailyCombo(store.authToken());
+				setCoins(clickerUser.balanceCoins);
+			}
 			setActiveUpgrade(null);
-			// await refetchUpgrades();
+			setUpgrades(newUpgrades.upgradesForBuy);
+			setUpgradesLoading(false);
 		}
 	};
 
