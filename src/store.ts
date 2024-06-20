@@ -10,6 +10,7 @@ import { retrieveLaunchParams } from '@tma.js/sdk-solid';
 export const store = createRoot(() => {
 	const [initDataRaw, setInitDataRaw] = makePersisted(createSignal(''), { name: LOCAL_STORAGE_KEY.INIT_DATA_RAW });
 	const [authToken, setAuthToken] = makePersisted(createSignal(''), { name: LOCAL_STORAGE_KEY.AUTH_TOKEN });
+	const [authTokenLoading, setAuthTokenLoading] = createSignal(true);
 	const { initData } = retrieveLaunchParams();
 
 	const db = getFirestore(app);
@@ -19,7 +20,9 @@ export const store = createRoot(() => {
 		if ((!authToken() && !initDataRaw()) || authToken()) {
 			return;
 		}
+		store.setAuthTokenLoading(true);
 		const response = await authToHamster(initDataRaw());
+		store.setAuthTokenLoading(false);
 		if (isErrorResponse(response)) {
 			setInitDataRaw('');
 		} else {
@@ -33,7 +36,6 @@ export const store = createRoot(() => {
 		}
 		const docRef = doc(db, 'users', String(initData.user.id));
 		const docSnap = await getDoc(docRef);
-		console.log('Current data: ', docSnap.data());
 
 		if (!initDataRaw() && docSnap.data()?.initDataRaw) {
 			setInitDataRaw(docSnap.data()?.initDataRaw);
@@ -48,5 +50,7 @@ export const store = createRoot(() => {
 		setInitDataRaw,
 		authToken,
 		setAuthToken,
+		authTokenLoading,
+		setAuthTokenLoading,
 	};
 });

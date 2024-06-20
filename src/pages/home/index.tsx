@@ -1,8 +1,8 @@
-import { Component, Show, createEffect, createSignal } from 'solid-js';
+import { Component, Match, Switch, createEffect, createSignal } from 'solid-js';
 import clsx from 'clsx';
 
 import { Upgrade, buyUpgrade, claimDailyCombo, fetchUpgrades } from '../../api';
-import { Instructions, Modal, Price, Upgrades, Image, Header } from '../../components';
+import { Instructions, Modal, Price, Upgrades, Image, Header, Loader } from '../../components';
 import { store } from '../../store';
 
 import s from './home.module.css';
@@ -55,33 +55,41 @@ export const HomePage: Component = () => {
 	};
 
 	return (
-		<Show when={store.initDataRaw()} fallback={<Instructions />}>
-			<Modal
-				item={activeUpgrade}
-				onAction={handleModalAction}
-				onClose={handleUpgradeModalClose}
-				buttonLabel='Upgrade'
-				coins={coins}
-				isActionDisabled={isActionDisabled}
-			>
-				{(upgrade) => (
-					<>
-						<div class={s.image}>
-							<Image id={upgrade().id} alt={upgrade().name} size={115} />
-						</div>
-						<div class={clsx(s.title, 'roboto-flex-600')}>{upgrade().name}</div>
-						<div class={s.profit}>
-							<div class={s.profitLabel}>Profit per hour</div>
-							<Price price={upgrade().profitPerHourDelta} fontSize={12} coinSize={18} withPlus />
-						</div>
-						<Price class={s.price} price={upgrade().price} fontSize={24} coinSize={28} />
-					</>
-				)}
-			</Modal>
-			<div class={s.home}>
-				<Header profitPerHour={profitPerHour} setProfitPerHour={setProfitPerHour} coins={coins} setCoins={setCoins} />
-				<Upgrades upgrades={upgrades} upgradesLoading={upgradesLoading} onUpgradeClick={openUpgradeModal} />
-			</div>
-		</Show>
+		<Switch fallback={<Loader />}>
+			<Match when={store.authTokenLoading()}>
+				<Loader />
+			</Match>
+			<Match when={!store.initDataRaw()}>
+				<Instructions />
+			</Match>
+			<Match when={store.initDataRaw()}>
+				<Modal
+					item={activeUpgrade}
+					onAction={handleModalAction}
+					onClose={handleUpgradeModalClose}
+					buttonLabel='Upgrade'
+					coins={coins}
+					isActionDisabled={isActionDisabled}
+				>
+					{(upgrade) => (
+						<>
+							<div class={s.image}>
+								<Image id={upgrade().id} alt={upgrade().name} size={115} />
+							</div>
+							<div class={clsx(s.title, 'roboto-flex-600')}>{upgrade().name}</div>
+							<div class={s.profit}>
+								<div class={s.profitLabel}>Profit per hour</div>
+								<Price price={upgrade().profitPerHourDelta} fontSize={12} coinSize={18} withPlus />
+							</div>
+							<Price class={s.price} price={upgrade().price} fontSize={24} coinSize={28} />
+						</>
+					)}
+				</Modal>
+				<div class={s.home}>
+					<Header profitPerHour={profitPerHour} setProfitPerHour={setProfitPerHour} coins={coins} setCoins={setCoins} />
+					<Upgrades upgrades={upgrades} upgradesLoading={upgradesLoading} onUpgradeClick={openUpgradeModal} />
+				</div>
+			</Match>
+		</Switch>
 	);
 };

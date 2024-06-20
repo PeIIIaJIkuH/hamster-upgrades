@@ -14,7 +14,9 @@ export const api = ky.create({
 					store.setAuthToken('');
 					const initData = store.initDataRaw();
 					if (initData) {
+						store.setAuthTokenLoading(true);
 						const res = await authToHamster(initData);
+						store.setAuthTokenLoading(false);
 						if (isErrorResponse(res)) {
 							return response;
 						}
@@ -24,6 +26,7 @@ export const api = ky.create({
 						return ky(request);
 					}
 				}
+				store.setAuthTokenLoading(false);
 				return response;
 			},
 		],

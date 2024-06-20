@@ -19,7 +19,7 @@
 
 .wrapper code {
 	font-family: monospace;
-	background-color: #444;
+	background: #444;
 	padding: 2px 4px;
 	border-radius: 4px;
 }
