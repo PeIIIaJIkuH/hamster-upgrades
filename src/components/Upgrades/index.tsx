@@ -9,6 +9,7 @@ type UpgradesProps = {
 	upgrades: Accessor<Upgrade[]>;
 	upgradesLoading: Accessor<boolean>;
 	onUpgradeClick: (upgrade: Upgrade) => void;
+	coins: Accessor<number>;
 };
 
 export const Upgrades: Component<UpgradesProps> = (props) => {
@@ -17,10 +18,7 @@ export const Upgrades: Component<UpgradesProps> = (props) => {
 			.upgrades()
 			.filter(
 				(upgrade) =>
-					upgrade.isAvailable &&
-					!upgrade.isExpired &&
-					(upgrade.maxLevel ? upgrade.level < upgrade.maxLevel : true) &&
-					!upgrade.cooldownSeconds,
+					upgrade.isAvailable && !upgrade.isExpired && (upgrade.maxLevel ? upgrade.level < upgrade.maxLevel : true),
 			)
 			.sort((a, b) => a.price / a.profitPerHourDelta - b.price / b.profitPerHourDelta) ?? [];
 
@@ -41,7 +39,7 @@ export const Upgrades: Component<UpgradesProps> = (props) => {
 				}
 			>
 				<For each={upgradesForBuy()}>
-					{(upgrade) => <UpgradeCard upgrade={upgrade} onClick={props.onUpgradeClick} />}
+					{(upgrade) => <UpgradeCard upgrade={upgrade} onClick={props.onUpgradeClick} coins={props.coins} />}
 				</For>
 			</Show>
 		</div>

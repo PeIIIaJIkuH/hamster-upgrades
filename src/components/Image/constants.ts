@@ -37,6 +37,7 @@ export const IMAGE_TYPE_MAP: Record<string, 'svg' | 'png'> = {
 	kyb: 'svg',
 	kyc: 'svg',
 	lambo_for_ceo: 'png',
+	layerzero_listing: 'png',
 	legal_opinion: 'svg',
 	licence_asia: 'png',
 	licence_australia: 'png',

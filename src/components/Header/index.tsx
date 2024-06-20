@@ -1,6 +1,5 @@
 import { Accessor, Component, Setter, Show, createEffect, createSignal, onCleanup } from 'solid-js';
 import { makePersisted } from '@solid-primitives/storage';
-import toast from 'solid-toast';
 import clsx from 'clsx';
 
 import {
@@ -14,9 +13,8 @@ import {
 } from '../../api';
 import { LOCAL_STORAGE_KEY } from '../../constants';
 import { store } from '../../store';
-import { Price, TitleCard } from '..';
+import { Icons, Price, TitleCard, notifySuccess } from '..';
 
-import boltIcon from '/icons/bolt.svg';
 import s from './header.module.css';
 
 type HeaderProps = {
@@ -96,7 +94,7 @@ export const Header: Component<HeaderProps> = (props) => {
 			if (!isErrorResponse(response)) {
 				props.setCoins(response.clickerUser.balanceCoins);
 				setDailyCipher({ cipher: cipher.toUpperCase(), isClaimed: true });
-				toast.success('Daily cipher claimed successfully');
+				notifySuccess('Daily cipher claimed successfully');
 			}
 		}
 	};
@@ -121,7 +119,7 @@ export const Header: Component<HeaderProps> = (props) => {
 			</div>
 			<Price class={s.coins} price={props.coins()} fontSize={40} coinSize={60} standard withoutDecimals separator=' ' />
 			<TitleCard class={s.taps}>
-				<img src={boltIcon} alt='bolt' height={26} />
+				<Icons.Bolt height={26} />
 				<div class={s.tapsCount}>
 					{taps()} / {maxTaps()}
 				</div>

@@ -9,11 +9,40 @@
 	-webkit-tap-highlight-color: transparent;
 }
 
+.upgradeCard.grayscale {
+	color: #fff6;
+}
+
 .top {
 	padding: 8px 12px;
 	display: flex;
 	align-items: center;
 	gap: 8px;
+}
+
+.image {
+	position: relative;
+}
+
+.cooldown {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 2px;
+	border-radius: 50%;
+	background: #34383fcc;
+	color: #fff;
+	font-size: 10px;
+}
+
+.imageGrayscale {
+	filter: grayscale(100%);
 }
 
 .info {

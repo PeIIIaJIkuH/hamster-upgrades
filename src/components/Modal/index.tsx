@@ -13,7 +13,6 @@ type ModalProps<T> = {
 	onClose: () => void;
 	buttonLabel: string;
 	duration?: number;
-	coins: Accessor<number>;
 	isActionDisabled?: (item: T) => boolean;
 	children: (item: Accessor<NonNullable<T>>) => JSX.Element;
 };
@@ -57,7 +56,7 @@ export function Modal<T>(props: ModalProps<T>): JSX.Element {
 							}}
 						>
 							<div class={s.close} onClick={merged.onClose}>
-								<Icons.Close size={32} />
+								<Icons.Close height={32} width={32} />
 							</div>
 							<div class={s.inner}>
 								{merged.children(item)}

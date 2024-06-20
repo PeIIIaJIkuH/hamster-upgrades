@@ -9,4 +9,4 @@ export { Modal } from './Modal';
 export { Header } from './Header';
 export { Loader } from './Loader';
 export { Icons } from './Icons';
-export { Toaster } from './Toaster';
+export { Toaster, notifySuccess, notifyError } from './Toaster';

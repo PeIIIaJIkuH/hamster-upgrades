@@ -2,6 +2,7 @@ import ky from 'ky';
 
 import { store } from '../store';
 import { authToHamster, isErrorResponse } from './auth';
+import { notifyError } from '../components';
 
 export const HANDLE_400_AS_401 = 'X-Custom-Handle-400-As-401';
 
@@ -10,6 +11,9 @@ export const api = ky.create({
 	hooks: {
 		afterResponse: [
 			async (request, _options, response) => {
+				if (!response.ok) {
+					notifyError('Something went wrong');
+				}
 				if (response.status === 401 || (response.status === 400 && request.headers.get(HANDLE_400_AS_401) === 'true')) {
 					store.setAuthToken('');
 					const initData = store.initDataRaw();
