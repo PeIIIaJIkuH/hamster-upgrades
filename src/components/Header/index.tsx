@@ -31,6 +31,9 @@ export const Header: Component<HeaderProps> = (props) => {
 
 	createEffect(() => {
 		const sync = async () => {
+			if (!store.authToken()) {
+				return;
+			}
 			if (innerInterval) clearInterval(innerInterval);
 
 			const { clickerUser } = await fetchSync(store.authToken());
