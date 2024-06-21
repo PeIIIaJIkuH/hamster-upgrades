@@ -68,7 +68,7 @@ export const UpgradeCard: Component<UpgradeProps> = (props) => {
 			</div>
 			<div class={s.bottom}>
 				<div class={clsx(s.level, 'roboto-flex-700')}>lvl {props.upgrade.level}</div>
-				<Price price={props.upgrade.price} fontSize={12} coinSize={20} class={clsx(!canBuy && s.imageGrayscale)} />
+				<Price price={props.upgrade.price} fontSize={12} coinSize={20} class={clsx(!canBuy() && s.imageGrayscale)} />
 			</div>
 		</div>
 	);
