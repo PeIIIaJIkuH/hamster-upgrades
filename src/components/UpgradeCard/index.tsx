@@ -15,7 +15,7 @@ type UpgradeProps = {
 
 export const UpgradeCard: Component<UpgradeProps> = (props) => {
 	const [seconds, setSeconds] = createSignal<number>(props.upgrade.cooldownSeconds ?? 0);
-	const canBuy = props.coins() >= props.upgrade.price && seconds() <= 0;
+	const canBuy = () => props.coins() >= props.upgrade.price && seconds() <= 0;
 
 	const formattedTime = () => new Date(seconds() * 1000).toISOString().substring(11, 19);
 
@@ -37,7 +37,7 @@ export const UpgradeCard: Component<UpgradeProps> = (props) => {
 	return (
 		<div
 			class={clsx(s.upgradeCard, !canBuy && s.grayscale)}
-			onClick={canBuy ? [props.onClick, props.upgrade] : undefined}
+			onClick={canBuy() ? [props.onClick, props.upgrade] : undefined}
 		>
 			<div class={s.top}>
 				<div class={s.image}>
@@ -58,7 +58,7 @@ export const UpgradeCard: Component<UpgradeProps> = (props) => {
 							withPlus={!props.upgrade.currentProfitPerHour}
 							fontSize={12}
 							coinSize={14}
-							class={clsx(!canBuy && s.imageGrayscale)}
+							class={clsx(!canBuy() && s.imageGrayscale)}
 						/>
 					</div>
 				</div>
