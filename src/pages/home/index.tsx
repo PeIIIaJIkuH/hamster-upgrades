@@ -48,7 +48,7 @@ export const HomePage: Component = () => {
 			} else if (combo && combo.upgradeIds.length < newUpgrades.dailyCombo.upgradeIds.length) {
 				setDailyCombo(newUpgrades.dailyCombo);
 				notifySuccess(
-					`Daily combo progress: ${newUpgrades.dailyCombo.upgradeIds.length}/${combo.upgradeIds.length + 1} upgrades`,
+					`Daily combo progress: ${newUpgrades.dailyCombo.upgradeIds.length}/3 upgrades`,
 				);
 			}
 			setUpgrades(newUpgrades.upgradesForBuy);
