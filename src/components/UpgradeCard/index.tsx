@@ -19,6 +19,12 @@ export const UpgradeCard: Component<UpgradeProps> = (props) => {
 
 	const formattedTime = () => new Date(seconds() * 1000).toISOString().substring(11, 19);
 
+	const handleClick = () => {
+		if (canBuy()) {
+			props.onClick(props.upgrade);
+		}
+	};
+
 	createEffect(() => {
 		if (!props.upgrade.cooldownSeconds) {
 			return;
@@ -35,10 +41,7 @@ export const UpgradeCard: Component<UpgradeProps> = (props) => {
 	});
 
 	return (
-		<div
-			class={clsx(s.upgradeCard, !canBuy && s.grayscale)}
-			onClick={canBuy() ? [props.onClick, props.upgrade] : undefined}
-		>
+		<div class={clsx(s.upgradeCard, !canBuy && s.grayscale)} onClick={handleClick}>
 			<div class={s.top}>
 				<div class={s.image}>
 					<Image id={props.upgrade.id} alt={props.upgrade.name} size={60} />
